@@ -140,7 +140,7 @@ class geth(
   String  $init_data        = "/home/${user}/genesis.json",
   String  $passfile         = "/home/${user}/passfile",
   String  $ethash_path      = "/home/${user}/.ethash",
-  Integer $block_number     = 0,  
+  Integer $block_number     = 0,
   String  $logdir           = '/var/log/geth',
   String  $account_password = 'P4ssw0rd!',
   Boolean $ntp_setup        = true,

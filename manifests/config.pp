@@ -9,9 +9,10 @@ class geth::config (
 )
 {
   exec { "geth --datadir ${datadir} init ${init_data} >> ${logdir}/init-data.log 2>&1":
-    cwd  => "/home/${user}",
-    user => 'geth',
-    path => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    cwd    => "/home/${user}",
+    user   => $user,
+    path   => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    unless => 'systemctl status geth',
   }
 
   ~> file { $passfile:
@@ -21,9 +22,9 @@ class geth::config (
   }
 
   ~> exec { "geth --datadir ${datadir} --password ${passfile} account new >> ${logdir}/create-account.log 2>&1":
-      cwd  => "/home/${user}",
-      user => $user,
-      path => [ '/usr/bin', '/bin', '/usr/sbin' ],
+      cwd    => "/home/${user}",
+      user   => $user,
+      path   => [ '/usr/bin', '/bin', '/usr/sbin' ],
+      unless => "cat ${logdir}/create-account.log | grep -i address",
     }
 }
-
