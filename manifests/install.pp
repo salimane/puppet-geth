@@ -21,6 +21,7 @@ class geth::install
   String  $datadir          = $geth::datadir,
   String  $passfile         = $geth::passfile,
   String  $logdir           = $geth::logdir,
+  Boolean $ntp_setup        = $geth::ntp_setup,
 )
 {
 
@@ -36,13 +37,15 @@ class geth::install
     require => Yumrepo['okay-repo'],
   }
 
-  # Proper time synchronization is needed for connecting to the blockchain
-  package { 'ntp':
-    ensure => installed,
-  }
-  ~> service { 'ntpd':
-    ensure => running,
-    enable => true,
+  if $ntp_setup {
+    # Proper time synchronization is needed for connecting to the blockchain
+    package { 'ntp':
+      ensure => installed,
+    }
+    ~> service { 'ntpd':
+      ensure => running,
+      enable => true,
+    }
   }
 
   group { $user:
@@ -79,4 +82,3 @@ class geth::install
     mode   => '0755',
   }
 }
-

@@ -143,5 +143,6 @@ class geth(
   Integer $block_number     = 0,  
   String  $logdir           = '/var/log/geth',
   String  $account_password = 'P4ssw0rd!',
+  Boolean $ntp_setup        = true,
 )
 {}
